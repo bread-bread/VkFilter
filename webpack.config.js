@@ -2,48 +2,53 @@ let webpack = require('webpack');
 let HtmlPlugin = require('html-webpack-plugin');
 let CleanWebpackPlugin = require('clean-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
-let loaders = require('./webpack.config.loaders')();
 let path = require('path');
-
-loaders.push({
-    test: /\.css$/,
-    use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: 'css-loader'
-    })
-});
+let PATHS = {
+    source: path.join(__dirname, 'src'),
+    dist: path.join(__dirname, 'dist')
+};
 
 module.exports = {
-    entry: {
-        main: './src/index.js',
-        cookie: './src/cookie.js'
-    },
+    entry: PATHS.source + '/js/index.js',
     output: {
         filename: '[name].[hash].js',
-        path: path.resolve('dist')
+        path: PATHS.dist
     },
     devtool: 'source-map',
     module: {
-        loaders
+        loaders: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: 'babel-loader'
+            },
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader'
+                })
+            },
+            {
+                test: /\.hbs/,
+                use: 'handlebars-loader'
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg|)$/i,
+                use: 'file-loader?name=images/[hash].[ext]'
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                use: 'file-loader?name=fonts/[hash].[ext]'
+            }
+        ]
     },
     plugins: [
-        // new webpack.optimize.UglifyJsPlugin({
-        //     sourceMap: true,
-        //     compress: {
-        //         drop_debugger: false
-        //     }
-        // }),
-        new ExtractTextPlugin('styles.css'),
+        new ExtractTextPlugin('./css/[name].css'),
         new HtmlPlugin({
+            filename: 'index.html',
             title: 'Main Homework',
-            template: 'index.hbs',
-            chunks: ['main']
-        }),
-        new HtmlPlugin({
-            title: 'Div Drag And Drop',
-            template: 'cookie.hbs',
-            filename: 'cookie.html',
-            chunks: ['cookie']
+            template: PATHS.source + '/index.hbs'
         }),
         new CleanWebpackPlugin(['dist'])
     ],

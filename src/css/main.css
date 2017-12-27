@@ -1,3 +1,18 @@
+@font-face {
+    font-family: 'firaSans-medium';
+    src: local('FiraSans-Medium'),
+    url('./../fonts/FiraSans-Medium.ttf');
+    font-weight: 500;
+	font-style: normal;
+}
+@font-face {
+    font-family: 'firaSans-light';
+    src: local('FiraSans-Light'),
+    url('./../fonts/FiraSans-Light.ttf');
+    font-weight: 300;
+	font-style: normal;
+}
+
 body,
 html {
     margin: 0;
@@ -8,7 +23,7 @@ html {
     font-size: 12px;
 }
 body {
-    font-family: "Fira-Sans", Arial, sans-serif;
+    font-family: 'firaSans-medium', sans-serif;
     line-height: 1.42;
     -webkit-font-smoothing: antialiased;
 }
@@ -54,9 +69,9 @@ p {
 .title-panel {
     background-color: #ff8663;
     color: #fff;
-    font-weight: bold;
     font-size: 16px;
     padding: 15px;
+    font-family: 'firaSans-medium';
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
@@ -102,6 +117,7 @@ p {
     border-radius: 15px;
     border: 0;
     padding: 5px 15px;
+    font-family: 'firaSans-light';
 }
 
 .main {
@@ -143,7 +159,6 @@ p {
     overflow: auto;
 }
 .title {
-    font-weight: bold;
     border-bottom: 1px solid #f0f0f0;
 }
 .friend {
@@ -169,7 +184,6 @@ p {
 .friend__add {
     display: inline-block;
     vertical-align: middle;
-    font-weight: bold;
 }
 .friend__photo {
     border-radius: 50%;
@@ -206,9 +220,6 @@ p {
 .friend__add_rotate.friend__add::before {
     transform: rotate(-45deg);
 }
-/* .friend__add::after {
-    transform: rotate(-45deg);
-} */
 
 .footer {
     background-color: #f0f0f0;
@@ -223,4 +234,5 @@ p {
     border-radius: 10px;
     padding: 8px 15px;
     display: inline-block;
+    font-family: 'firaSans-light';
 }

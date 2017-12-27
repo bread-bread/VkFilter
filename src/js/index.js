@@ -1,3 +1,5 @@
+import css from '../css/main.css';
+
 new Promise((resolve, reject) => {
     VK.init({
         apiId: 6308299
@@ -25,8 +27,6 @@ new Promise((resolve, reject) => {
     const listOfSelected = document.querySelector('.container-drop');
     const listOfAll = document.querySelector('.friends__container');
     const saveBtn = document.querySelector('.save-btn');
-    const searchFull = document.querySelector('.search-full');
-    const serachSelected = document.querySelector('.search-list');
 
     if (localStorage.allFriends) {
         let allFriends = JSON.parse(localStorage.allFriends),
@@ -67,11 +67,6 @@ new Promise((resolve, reject) => {
     // start save friends)
     function saveLists(e) {
         e.preventDefault();
-        // if (!listOfSelected.children.length) {
-        //     alert('Choose your friends');
-
-        //     return;        
-        // };
 
         localStorage.allFriends = JSON.stringify(allFriendsList);
         localStorage.selectedFriends = JSON.stringify(selectedFriendsList);
@@ -85,36 +80,67 @@ new Promise((resolve, reject) => {
     function isMatching (full, chunk) {
         return full.toLowerCase().includes(chunk.toLowerCase());
     }
-    function keyUpSelected (e) {
-        let tempObj = {
-            items: []
-        };
+    // function keyUpSelected (e) {
+    //     let tempObj = {
+    //         items: []
+    //     };
 
-        selectedFriendsList.items.forEach((item, i) => {
-            if (isMatching(`${item.first_name} ${item.last_name}`, e.target.value)) {
-                tempObj.items.push(item);
-            } else if (!e.target.value) {
-                tempObj.items.push(item);
-            }
-            renderTemp(tempObj, listOfSelected, 'friend__add_rotate');
-        })
-    }
-    function keyUpAll (e) {
-        let tempObj = {
-            items: []
-        };
+    //     selectedFriendsList.items.forEach((item, i) => {
+    //         if (isMatching(`${item.first_name} ${item.last_name}`, e.target.value)) {
+    //             tempObj.items.push(item);
+    //         } else if (!e.target.value) {
+    //             tempObj.items.push(item);
+    //         }
+    //         renderTemp(tempObj, listOfSelected, 'friend__add_rotate');
+    //     })
+    // }
+    // function keyUpAll (e) {
+    //     let tempObj = {
+    //         items: []
+    //     };
 
-        allFriendsList.items.forEach((item, i) => {
-            if (isMatching(`${item.first_name} ${item.last_name}`, e.target.value)) {
-                tempObj.items.push(item);
-            } else if (!e.target.value) {
-                tempObj.items.push(item);
-            }
-            renderTemp(tempObj, listOfAll);
-        })
+    //     allFriendsList.items.forEach((item, i) => {
+    //         if (isMatching(`${item.first_name} ${item.last_name}`, e.target.value)) {
+    //             tempObj.items.push(item);
+    //         } else if (!e.target.value) {
+    //             tempObj.items.push(item);
+    //         }
+    //         renderTemp(tempObj, listOfAll);
+    //     })
+    // }
+
+    function keyUpAnother (e) {
+        let nameSelected = document.querySelectorAll('.container-drop .friend__name');
+        let nameAll = document.querySelectorAll('.friends__container .friend__name');
+
+        if (e.target.classList.contains('search-list')) {
+            nameSelected.forEach((item) => {
+                if (isMatching(item.innerText, e.target.value)) {
+                    item.parentNode.style.display = 'block';
+                } else if (!isMatching(item.innerText, e.target.value)) {
+                    item.parentNode.style.display = 'none';
+                }
+                if (!e.target.value) {
+                    item.parentNode.style.display = 'block';
+                }
+            })
+        } else if (e.target.classList.contains('search-full')) {
+            nameAll.forEach((item) => {
+                if (isMatching(item.innerText, e.target.value)) {
+                    item.parentNode.style.display = 'block';
+                } else if (!isMatching(item.innerText, e.target.value)) {
+                    item.parentNode.style.display = 'none';
+                }
+                if (!e.target.value) {
+                    item.parentNode.style.display = 'block';
+                }
+            })
+        }
     }
-    searchFull.addEventListener('keyup', keyUpAll);
-    serachSelected.addEventListener('keyup', keyUpSelected);
+
+    document.querySelector('.header').addEventListener('keyup', keyUpAnother);
+    // searchFull.addEventListener('keyup', keyUpAll);
+    // serachSelected.addEventListener('keyup', keyUpSelected);
     // end filtr
     // start Drag & Drop
     let dragObj = {};
