@@ -13,7 +13,7 @@ new Promise((resolve, reject) => {
     }, 2 | 4);
 }).then(() => {
     return new Promise((resolve, reject) => {
-        VK.api('friends.get', { fields: 'photo_50', v: '5.69', count: 15 }, data => {
+        VK.api('friends.get', { fields: 'photo_50', v: '5.69' }, data => {
             if (data.error) {
                 reject(data.error);
             } else {
@@ -114,27 +114,27 @@ new Promise((resolve, reject) => {
         let nameAll = document.querySelectorAll('.friends__container .friend__name');
 
         if (e.target.classList.contains('search-list')) {
-            nameSelected.forEach((item) => {
-                if (isMatching(item.innerText, e.target.value)) {
-                    item.parentNode.style.display = 'block';
-                } else if (!isMatching(item.innerText, e.target.value)) {
-                    item.parentNode.style.display = 'none';
+            for (let i = 0; i < nameSelected.length; i++) {
+                if (isMatching(nameSelected[i].innerText, e.target.value)) {
+                    nameSelected[i].parentNode.style.display = 'block';
+                } else if (!isMatching(nameSelected[i].innerText, e.target.value)) {
+                    nameSelected[i].parentNode.style.display = 'none';
                 }
                 if (!e.target.value) {
-                    item.parentNode.style.display = 'block';
+                    nameSelected[i].parentNode.style.display = 'block';
                 }
-            })
+            }
         } else if (e.target.classList.contains('search-full')) {
-            nameAll.forEach((item) => {
-                if (isMatching(item.innerText, e.target.value)) {
-                    item.parentNode.style.display = 'block';
-                } else if (!isMatching(item.innerText, e.target.value)) {
-                    item.parentNode.style.display = 'none';
+            for (let i = 0; i < nameAll.length; i++) {
+                if (isMatching(nameAll[i].innerText, e.target.value)) {
+                    nameAll[i].parentNode.style.display = 'block';
+                } else if (!isMatching(nameAll[i].innerText, e.target.value)) {
+                    nameAll[i].parentNode.style.display = 'none';
                 }
                 if (!e.target.value) {
-                    item.parentNode.style.display = 'block';
+                    nameAll[i].parentNode.style.display = 'block';
                 }
-            })
+            }
         }
     }
 
@@ -154,6 +154,8 @@ new Promise((resolve, reject) => {
         let elem = e.target.closest('.friend');
 
         if (!elem) return;
+
+        elem.removeAttribute('style');
 
         dragObj.elem = elem;
 
@@ -281,7 +283,6 @@ new Promise((resolve, reject) => {
             dragObj.elem.querySelector('.friend__add')
                 .classList.remove('friend__add_rotate');
             allUpd(dragObj.elem);
-            // --> вставить удаление из выбранных и добавление в общий
         }
     }
     // определения дроп контейнера
